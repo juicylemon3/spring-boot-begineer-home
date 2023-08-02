@@ -1,13 +1,23 @@
 package com.mananabas.springdemo.student;
 
-import java.time.LocalDate;
+import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.Period;
+
+@Entity
+@Table(name = "student")
 public class Student {
 
+    @Id
+    @GeneratedValue
+    private Long id;
     private String firstname;
     private String lastname;
     private LocalDate dateOfBirth;
+    @Column(unique = true)
     private String email;
+    @Transient
     private int age;
 
     public Student() {
@@ -55,10 +65,18 @@ public class Student {
     }
 
     public int getAge() {
-        return age;
+        return Period.between(dateOfBirth, LocalDate.now()).getYears();
     }
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

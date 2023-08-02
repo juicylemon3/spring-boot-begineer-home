@@ -1,5 +1,7 @@
 package com.mananabas.springdemo.student;
 
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,7 +13,8 @@ public class StudentController {
 
     private StudentService service;
 
-    public StudentController(StudentService service) {
+    public StudentController(
+            @Qualifier("DBStudentService") StudentService service) {
         this.service = service;
     }
 
@@ -41,7 +44,8 @@ public class StudentController {
         return service.update(student);
     }
 
-    @DeleteMapping("/{email,}")
+    @DeleteMapping("/{email}")
+    @Transactional
     public void delete(
             @PathVariable("email") String email
     ){
